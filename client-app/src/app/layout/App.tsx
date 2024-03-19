@@ -46,6 +46,7 @@ function App() {
   function handleCreateOrEditActivity(activity: Activity) {
     setSubmitting(true);
     if(activity.id) {
+      debugger;
       agent.Activities.update(activity).then(() =>{
         setActivities([...activities.filter(x => x.id !== activity.id), activity])
         setSelectedActivity(activity);
@@ -55,7 +56,8 @@ function App() {
     }
     else
     {
-      activity.id == uuid();
+      debugger;
+      activity.id = uuid();
       agent.Activities.create(activity).then(() => {
         setActivities([...activities, activity])
         setSelectedActivity(activity);
@@ -66,8 +68,11 @@ function App() {
   }
 
   function handleDeleteActivity(id: string){
-    setActivities([...activities.filter(x => x.id !== id)])
-
+    setSubmitting(true);
+    agent.Activities.delete(id).then(() =>{
+    setActivities([...activities.filter(x => x.id !== id)]);
+    setSubmitting(false);
+    })
   }
 
   if(loading) return <LoadingComponent content='Loading App' />
