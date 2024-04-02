@@ -1,4 +1,5 @@
 export interface Activity {
+    isHost: any
     id: string
     title: string
     date: string
