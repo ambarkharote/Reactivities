@@ -15,6 +15,7 @@ export default observer(function ActivityForm() {
         const {id} = useParams();
 
         const [activity, setActivity] = useState<Activity>({
+            isHost:'',
             id: '',
             title:'',
             category:'',
