@@ -22,7 +22,7 @@ namespace API.Controllers
             _tokenService = tokenService;
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDto loginDto)
         {
@@ -72,7 +72,7 @@ namespace API.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
