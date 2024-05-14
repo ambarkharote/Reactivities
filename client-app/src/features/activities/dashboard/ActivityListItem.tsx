@@ -1,24 +1,15 @@
-import { Button, Icon, Item, Segment } from "semantic-ui-react";
-import { Activity } from "../../../app/layout/models/activity";
+import { Button, Icon, Item, Label, Segment } from "semantic-ui-react";
+import { Activity } from "../../../app/models/activity";
 import { Link } from "react-router-dom";
-// import { SyntheticEvent, useState } from "react";
-// import { useStore } from "../../../app/stores/store";
 import {format} from 'date-fns';
+import ActivityListItemAttendee from "./ActivityListItemAttendee";
 
 interface Props {
     activity: Activity
 }
 
 export default function ActivityListItem({activity}: Props) {
-    // const {activityStore} = useStore();
-    // const {deleteActivity} = activityStore;
-    // const [target, setTarget] = useState('');
-
-    // function handleActivityDelete(e: SyntheticEvent<HTMLButtonElement>, id: string) {
-    //     setTarget(e.currentTarget.name);
-    //     deleteActivity(id);
-    // }
-
+    
     return(
        <Segment.Group>
             <Segment>
@@ -29,7 +20,21 @@ export default function ActivityListItem({activity}: Props) {
                             <Item.Header as={Link} to={`/activities/${activity.id}`}>
                                 {activity.title}
                             </Item.Header>
-                            <Item.Description>Hosted by Bob</Item.Description>
+                            <Item.Description>Hosted by {activity.host?.displayName}</Item.Description>
+                            {activity.isHost && (
+                                <Item.Description>
+                                    <Label basic color="orange">
+                                        You are hosting this activity
+                                    </Label>
+                                </Item.Description>
+                            )}
+                            {activity.isGoing && !activity.isHost && (
+                                <Item.Description>
+                                    <Label basic color="green">
+                                        You are going to this activity
+                                    </Label>
+                                </Item.Description>
+                            )}
                         </Item.Content>
                     </Item>
                 </Item.Group>
@@ -41,7 +46,7 @@ export default function ActivityListItem({activity}: Props) {
                 </span>
             </Segment>
             <Segment secondary>
-                Attendance go here
+                <ActivityListItemAttendee attendees={activity.attendees} />
             </Segment>
             <Segment clearing>
                 <span>{activity.description}</span>

@@ -1,9 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { Activity } from "../layout/models/activity";
+import { Activity } from "../models/activity";
 import { toast } from "react-toastify";
 import { router } from "../Router/Routes";
 import { store } from "../stores/store";
-import { User, UserFormValues } from "../layout/models/user";
+import { User, UserFormValues } from "../models/user";
 
 const sleep = (delay: number) => {
     return new Promise((resolve) => {
