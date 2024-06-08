@@ -32,3 +32,9 @@ export interface UserActivity {
     category: string;
     date: Date;
 }
+
+export interface Photo {
+    id: string;
+    url: string;
+    isMain: boolean;
+}
