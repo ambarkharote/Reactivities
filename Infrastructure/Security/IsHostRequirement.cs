@@ -29,16 +29,16 @@ namespace Infrastructure.Security
             if (userId == null) return Task.CompletedTask;
 
             var activityId = Guid.Parse(_httpContextAccessor.HttpContext?.Request.RouteValues
-            .SingleOrDefault(x =>x.Key == "Id").Value?.ToString());
+            .SingleOrDefault(x => x.Key == "Id").Value?.ToString());
 
             var attendee = _context.ActivityAttendees.AsNoTracking()
-            .SingleOrDefaultAsync( x => x.AppUserId == userId && x.ActivityId == activityId).Result;  
+            .SingleOrDefaultAsync(x => x.AppUserId == userId && x.ActivityId == activityId).Result;
 
-            if(attendee == null) return Task.CompletedTask;
+            if (attendee == null) return Task.CompletedTask;
 
-            if(attendee.IsHost) context.Succeed(requirement);
+            if (attendee.IsHost) context.Succeed(requirement);
 
-            return Task.CompletedTask;    
+            return Task.CompletedTask;
         }
     }
 }

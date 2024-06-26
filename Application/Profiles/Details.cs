@@ -29,9 +29,9 @@ namespace Application.Profiles
                 var user = await _context.Users.ProjectTo<Profile>(_mapper.ConfigurationProvider)
                     .SingleOrDefaultAsync(x => x.Username == request.Username);
 
-                if(user == null) return null;    
+                if (user == null) return null;
 
-                return Result<Profile>.Success(user);    
+                return Result<Profile>.Success(user);
             }
         }
     }

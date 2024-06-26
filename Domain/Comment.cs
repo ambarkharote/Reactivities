@@ -1,6 +1,6 @@
 namespace Domain
 {
-    public class Comment 
+    public class Comment
     {
         public int Id { get; set; }
         public string Body { get; set; }

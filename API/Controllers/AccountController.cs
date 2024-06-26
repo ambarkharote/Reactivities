@@ -33,9 +33,9 @@ namespace API.Controllers
 
             var result = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
-            if(result)
+            if (result)
             {
-                 return CreateUserObject(user);
+                return CreateUserObject(user);
             }
 
             return Unauthorized();
@@ -47,13 +47,13 @@ namespace API.Controllers
         {
             if (await _userManager.Users.AnyAsync(u => u.UserName == registerDto.Username))
             {
-                ModelState.AddModelError("username","Username taken");
+                ModelState.AddModelError("username", "Username taken");
                 return ValidationProblem();
             }
 
             if (await _userManager.Users.AnyAsync(u => u.Email == registerDto.Email))
             {
-                ModelState.AddModelError("email","Email taken");
+                ModelState.AddModelError("email", "Email taken");
                 return ValidationProblem();
             }
 
@@ -66,7 +66,7 @@ namespace API.Controllers
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
 
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 return CreateUserObject(user);
             }
@@ -81,7 +81,7 @@ namespace API.Controllers
         {
             var user = await _userManager.Users.Include(p => p.Photos)
                         .FirstOrDefaultAsync(x => x.Email == User.FindFirstValue(ClaimTypes.Email));
-                        
+
             return CreateUserObject(user);
         }
 
@@ -97,4 +97,4 @@ namespace API.Controllers
         }
 
     }
-} 
+}

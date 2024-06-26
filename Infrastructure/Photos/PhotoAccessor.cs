@@ -21,7 +21,7 @@ namespace Infrastructure.Photos
         }
         public async Task<PhotoUploadResult> AddPhoto(IFormFile file)
         {
-            if(file.Length > 0)
+            if (file.Length > 0)
             {
                 await using var stream = file.OpenReadStream();
                 var uploadParams = new ImageUploadParams
@@ -32,7 +32,7 @@ namespace Infrastructure.Photos
 
                 var uploadResult = await _cloudinary.UploadAsync(uploadParams);
 
-                if(uploadResult.Error != null)
+                if (uploadResult.Error != null)
                 {
                     throw new Exception(uploadResult.Error.Message);
                 }

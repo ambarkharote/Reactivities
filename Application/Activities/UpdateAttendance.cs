@@ -31,12 +31,12 @@ namespace Application.Activities
                     .Include(a => a.Attendees).ThenInclude(u => u.AppUser)
                     .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-                if(activity == null) return null;
+                if (activity == null) return null;
 
-                var user = await _context.Users.FirstOrDefaultAsync(x => 
-                    x.UserName == _userAccessor.GetUsername()); 
+                var user = await _context.Users.FirstOrDefaultAsync(x =>
+                    x.UserName == _userAccessor.GetUsername());
 
-                if(user == null) return null;
+                if (user == null) return null;
 
                 var hostUsername = activity.Attendees.FirstOrDefault(x => x.IsHost)?.AppUser?.UserName;
 
@@ -48,7 +48,7 @@ namespace Application.Activities
                 if (attendance != null && hostUsername == user.UserName)
                     activity.Attendees.Remove(attendance);
 
-                if( attendance == null)
+                if (attendance == null)
                 {
                     attendance = new ActivityAttendee
                     {
@@ -58,13 +58,13 @@ namespace Application.Activities
                     };
 
                     activity.Attendees.Add(attendance);
-                }            
+                }
 
                 var result = await _context.SaveChangesAsync() > 0;
 
                 return result ? Result<Unit>.Success(Unit.Value) : Result<Unit>.Failure("Problem updating attendance");
 
-            }  
+            }
         }
 
 

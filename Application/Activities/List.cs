@@ -12,7 +12,7 @@ namespace Application.Activities
 {
     public class List
     {
-        public class Query : IRequest<Result<List<ActivityDto>>> {}
+        public class Query : IRequest<Result<List<ActivityDto>>> { }
 
         public class Handler : IRequestHandler<Query, Result<List<ActivityDto>>>
         {
@@ -25,7 +25,7 @@ namespace Application.Activities
                 _mapper = mapper;
             }
             public async Task<Result<List<ActivityDto>>> Handle(Query request, CancellationToken cancellationToken)
-            {      
+            {
                 var activities = await _context.Activities
                     .ProjectTo<ActivityDto>(_mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);

@@ -11,10 +11,11 @@ namespace API.Extensions
 {
     public static class IdentityServiceExtensions
     {
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services, 
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services,
         IConfiguration configuration)
         {
-            services.AddIdentityCore<AppUser>(opt => {
+            services.AddIdentityCore<AppUser>(opt =>
+            {
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = true;
             })
@@ -23,24 +24,25 @@ namespace API.Extensions
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["TokenKey"]));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>{
+                .AddJwtBearer(options =>
+                {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                         ValidateIssuerSigningKey = true,
-                         IssuerSigningKey = key,
-                         ValidateIssuer = false,
-                         ValidateAudience = false
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateIssuer = false,
+                        ValidateAudience = false
                     };
-                 });
+                });
 
             services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("IsActivityHost", policy => 
+                opt.AddPolicy("IsActivityHost", policy =>
                 {
                     policy.Requirements.Add(new IsHostRequirement());
                 });
             });
-            services.AddTransient<IAuthorizationHandler,IsHostRequirementHandler>();
+            services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
             services.AddScoped<TokenService>();
 
             return services;

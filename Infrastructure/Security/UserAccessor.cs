@@ -11,7 +11,7 @@ namespace Application.Interfaces
         {
             _httpContextAccessor = httpContextAccessor;
         }
-        public string GetUsername() 
+        public string GetUsername()
         {
             return _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name);
         }

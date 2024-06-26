@@ -1,5 +1,6 @@
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,13 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers(option => {
+builder.Services.AddControllers(option =>
+{
     var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-    option.Filters.Add(new AuthorizeFilter(policy)); 
+    option.Filters.Add(new AuthorizeFilter(policy));
 });
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
- 
+
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
@@ -38,6 +40,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<ChatHub>("/chat");
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -49,7 +52,7 @@ try
     await context.Database.MigrateAsync();
     await Seed.SeedData(context, userManager);
 }
-catch(Exception ex)  
+catch (Exception ex)
 {
     var logger = services.GetRequiredService<ILogger<Program>>();
     logger.LogError(ex.Message);

@@ -32,7 +32,7 @@ namespace Application.Photos
                 var user = await _context.Users.Include(p => p.Photos)
                         .FirstOrDefaultAsync(x => x.UserName == _userAccessor.GetUsername());
 
-                if(user == null) return null;
+                if (user == null) return null;
 
                 var photoUploadResult = await _photoAccessor.AddPhoto(request.File);
 
@@ -42,13 +42,13 @@ namespace Application.Photos
                     Id = photoUploadResult.publicId
                 };
 
-                if(!user.Photos.Any(x => x.IsMain)) photo.IsMain = true;
+                if (!user.Photos.Any(x => x.IsMain)) photo.IsMain = true;
 
                 user.Photos.Add(photo);
 
                 var result = await _context.SaveChangesAsync() > 0;
 
-                if(result) return Result<Photo>.Success(photo);
+                if (result) return Result<Photo>.Success(photo);
 
                 return Result<Photo>.Failure("Problem adding photo");
             }
