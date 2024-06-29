@@ -1,4 +1,9 @@
 using Application.Core;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 namespace Application.Comments
 {
