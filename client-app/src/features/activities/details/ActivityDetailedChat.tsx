@@ -3,6 +3,8 @@ import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useEf
 import { Link } from 'react-router-dom';
 import { Segment, Header, Comment, Button, Form } from 'semantic-ui-react'
 import { useStore } from '../../../app/stores/store';
+import { Formik } from 'formik';
+import MyTextArea from '../../../app/common/form/MyTextArea';
 
 interface Props {
     activityId : string;
@@ -51,15 +53,29 @@ export default observer(function ActivityDetailedChat({activityId} : Props) {
                     </Comment>
                     ))}
 
-                    <Form reply>
-                        <Form.TextArea/>
-                        <Button
-                            content='Add Reply'
-                            labelPosition='left'
-                            icon='edit'
-                            primary
-                        />
-                    </Form>
+                    <Formik 
+                        onSubmit={(values, {resetForm}) =>
+                            commentStore.addComment(values).then(() => resetForm())}
+                        initialValues={{body: ''}}
+                    >
+                        {({isSubnmitting, isValid}) => (
+                        <Form className='ui form'>
+                            <MyTextArea placeholder='Add Comment' name='body' rows={2} />
+                            <Form.TextArea/>
+                            <Button
+                                loading={isSubnmitting}
+                                disabled={isSubnmitting || !isValid}
+                                content='Add Reply'
+                                labelPosition='left'
+                                icon='edit'
+                                primary
+                                type='submit'
+                                floated='right'
+                            />
+                        </Form>
+                        )}
+                    </Formik>
+                    
                 </Comment.Group>
             </Segment>
         </>
