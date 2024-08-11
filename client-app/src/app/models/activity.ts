@@ -1,6 +1,4 @@
-import { th } from 'date-fns/locale';
 import { Profile } from './Profile'
-import { object } from 'yup';
 
 export interface IActivity {
     id: string;
@@ -14,8 +12,8 @@ export interface IActivity {
     isCancelled: boolean;
     isGoing: boolean;
     isHost?: boolean
-    attendees?: Profile[]
     host?: Profile;
+    attendees?: Profile[];
 }
 
 export class Activity implements IActivity {
