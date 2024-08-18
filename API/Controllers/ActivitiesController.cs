@@ -1,13 +1,9 @@
 
 using Application.Activities;
-using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace API.Controllers
 {
@@ -20,10 +16,10 @@ namespace API.Controllers
         }
 
         [HttpGet] //api/activities
-        public async Task<IActionResult> GetActivities([FromQuery] PagingParams pagingParams)
+        public async Task<IActionResult> GetActivities([FromQuery] ActivityParams activityParams)
         {
 
-            return HandlePagedResult(await Mediator.Send(new List.Query{Params = pagingParams}));
+            return HandlePagedResult(await Mediator.Send(new List.Query{Params = activityParams}));
 
         }
 
